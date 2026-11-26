@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Design ImGui-style or holdable menus visually. Generate real template code with your OpenAI key." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Menu Designer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="logo">
+        <span>🎛️</span>
+        <h1>Menu Designer</h1>
+      </div>
+      <div class="header-actions">
+        <button id="installBtn" class="btn secondary" hidden>Install</button>
+        <button id="generateBtn" class="btn primary">Generate Template Code</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Left: Toolbox -->
+      <aside class="sidebar">
+        <h2>Add Elements</h2>
+        <button class="tool-btn" data-type="category">📁 Category</button>
+        <button class="tool-btn" data-type="button">🔘 Button</button>
+        <button class="tool-btn" data-type="toggle">🔀 Toggle</button>
+        <button class="tool-btn" data-type="slider">🎚️ Slider</button>
+        <button class="tool-btn" data-type="mod">🧩 Mod Slot</button>
+        <hr />
+        <h2>Settings</h2>
+        <label class="small-label">Menu Style</label>
+        <select id="menuStyle">
+          <option value="imgui">ImGui Style</option>
+          <option value="holdable">Holdable / Radial</option>
+          <option value="list">Simple List</option>
+        </select>
+        <label class="small-label">Menu Title</label>
+        <input type="text" id="menuTitle" value="My Menu" />
+      </aside>
+
+      <!-- Center: Canvas -->
+      <main class="canvas-area">
+        <div class="canvas-header">
+          <span>Preview</span>
+          <button id="clearBtn" class="btn secondary small">Clear All</button>
+        </div>
+        <div id="canvas" class="canvas">
+          <div class="empty-hint">Add elements from the left panel</div>
+        </div>
+      </main>
+
+      <!-- Right: Properties -->
+      <aside class="props" id="propsPanel">
+        <h2>Properties</h2>
+        <p class="hint">Select an element to edit</p>
+        <div id="propsContent"></div>
+      </aside>
+    </div>
+
+    <!-- Generate Modal -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Generate Template Code</h2>
+          <button id="closeModal" class="btn secondary small">✕</button>
+        </div>
+        <div class="modal-body">
+          <label class="small-label">OpenAI API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-..." />
+          <p class="hint">Key stays in your browser only. Used only for generating the template code.</p>
+
+          <label class="small-label">Target Language / Framework</label>
+          <select id="targetLang">
+            <option value="imgui-cpp">ImGui (C++)</option>
+            <option value="imgui-python">ImGui (Python / pyimgui)</option>
+            <option value="html-css-js">HTML + CSS + JS</option>
+            <option value="react">React Component</option>
+            <option value="lua">Lua (FiveM / Roblox style)</option>
+          </select>
+
+          <button id="runGenerate" class="btn primary large" style="margin-top:1rem;width:100%">
+            ⚡ Generate with OpenAI
+          </button>
+
+          <div id="genStatus" class="status"></div>
+          <pre id="generatedCode" class="code-output hidden"></pre>
+          <button id="copyCodeBtn" class="btn secondary hidden" style="margin-top:0.5rem">Copy Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
